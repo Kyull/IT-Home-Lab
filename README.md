@@ -66,3 +66,29 @@ tasklist
 -DNS verification
 -Route tracing
 -Identifying active network connections
+
+## Lab 3: Windows User Management
+
+### Goal
+Practice creating and managing local user accounts using command line tools.
+
+### Commands Used
+
+whoami
+net user
+net localgroup
+
+### Tasks Performed
+
+1. Checked current user with whoami
+2. Listed existing users with net user
+3. Created a new user account
+4. Added the user to the administrators group
+5. Verified group membership
+6. Removed the test user account
+
+### Skills Learned
+
+- Managing local user accounts
+- Assigning administrator privileges
+- Using command line user management tools
