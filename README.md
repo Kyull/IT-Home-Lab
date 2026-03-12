@@ -25,11 +25,11 @@ Create a Windows virtual machine to practice IT troubleshooting and networking t
 
 ### Commands Practiced
 
-ipconfig  
-ping google.com  
-tracert google.com  
-netstat -ano  
-tasklist
+-ipconfig  
+-ping google.com  
+-tracert google.com  
+-netstat -ano  
+-tasklist
 
 ### Skills Learned
 - Virtualization basics
@@ -45,11 +45,11 @@ Practice basic network troubleshooting commands used by IT support technicians.
 
 ### Commands Used 
 
-ipconfig
-ping
-tracert
-netstat
-tasklist
+-ipconfig
+-ping
+-tracert
+-netstat
+-tasklist
 
 ### Tests Performed
 
@@ -74,9 +74,9 @@ Practice creating and managing local user accounts using command line tools.
 
 ### Commands Used
 
-whoami
-net user
-net localgroup
+-whoami
+-net user
+-net localgroup
 
 ### Tasks Performed
 
