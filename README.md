@@ -25,8 +25,8 @@ Create a Windows virtual machine to practice IT troubleshooting and networking t
 
 ### Commands Practiced
 
-- 'ipconfig'
-- 'ping google.com'  
+- `ipconfig`
+- `ping google.com` 
 - 'tracert google.com' 
 - 'netstat -ano'  
 - 'tasklist'
