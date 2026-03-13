@@ -62,6 +62,7 @@ Practice basic network troubleshooting commands used by IT support technicians.
 7. Listed running processes with tasklist
 
 ### Skill Learned
+
 - Network connectivity testing
 - DNS verification
 - Route tracing
