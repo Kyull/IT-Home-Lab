@@ -27,9 +27,9 @@ Create a Windows virtual machine to practice IT troubleshooting and networking t
 
 - `ipconfig`
 - `ping google.com` 
-- 'tracert google.com' 
-- 'netstat -ano'  
-- 'tasklist'
+- `tracert google.com`
+- `netstat -ano`
+- `tasklist`
 
 ### Skills Learned
 - Virtualization basics
@@ -45,11 +45,11 @@ Practice basic network troubleshooting commands used by IT support technicians.
 
 ### Commands Used 
 
-- ipconfig
-- ping
-- tracert
-- netstat
-- tasklist
+- `ipconfig`
+- `ping`
+- `tracert`
+- `netstat`
+- `tasklist`
 
 ### Tests Performed
 
@@ -75,9 +75,9 @@ Practice creating and managing local user accounts using command line tools.
 
 ### Commands Used
 
-- whoami
-- net user
-- net localgroup
+- `whoami`
+- `net user`
+- `net localgroup`
 
 ### Tasks Performed
 
@@ -93,3 +93,36 @@ Practice creating and managing local user accounts using command line tools.
 - Managing local user accounts
 - Assigning administrator privileges
 - Using command line user management tools
+
+---
+
+## Lab 4: Linux Mint Virtual Machine Setup
+
+### Goal
+Install a Linux VM to practice Linux command-line and networking basics.
+
+### Tools Used
+
+- Hyper-V
+- Linux Mint ISO
+
+### Steps
+1. Created Linux VM in Hyper-V
+2. Assigned 4GB RRAM and 2 CPU cores
+3. Disabled Secure Boot to allow Linux boot
+4. Installed Linux Mint
+5. Verified network connectivity using ping
+
+### Commands Practiced
+
+- `whoami`
+- `pwd`
+- `ls`
+- `ip a`
+- `ping google.com`
+
+### Skills Learned
+
+- Linux installation in a VM
+- Basic Linux command-line navigation
+- Network interface inspection
