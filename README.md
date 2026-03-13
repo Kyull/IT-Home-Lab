@@ -7,6 +7,7 @@ Home lab projects for learning IT, networking, and cybersecurity.
 ## Lab 1: Windows Virtual Machine Setup
 
 ### Goal
+
 Create a Windows virtual machine to practice IT troubleshooting and networking tools.
 
 ### Tools Used
