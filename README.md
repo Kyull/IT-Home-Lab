@@ -175,7 +175,7 @@ ping 192.168.1.36
 File and Printer Sharing (Echo Request - ICMPv4-In)
 ```
 
-9.Enabled the rule for the **Private** network profile.
+9. Enabled the rule for the **Private** network profile.
 
 10. Retested connectivity from linux.
 
