@@ -100,6 +100,7 @@ Practice creating and managing local user accounts using command line tools.
 ## Lab 4: Linux Mint Virtual Machine Setup
 
 ### Goal
+
 Install a Linux VM to practice Linux command-line and networking basics.
 
 ### Tools Used
