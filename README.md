@@ -126,3 +126,69 @@ Install a Linux VM to practice Linux command-line and networking basics.
 - Linux installation in a VM
 - Basic Linux command-line navigation
 - Network interface inspection
+
+---
+
+## Lab 5: Network Communication Between Virtual Machines
+
+### Goal Verify network communication between Windows and Linux virtual machines and troubleshoot connectivity issues.
+
+### Tools Used
+
+```
+- ipconfig
+- ip a
+- ping
+```
+
+### Step Performed
+
+1. Identified the Linux VM IP address using:
+
+```
+-ip a
+```
+
+2. Identified the Windows VM IP address using:
+
+```
+- ipconfig
+```
+
+3. Attempted to ping the Windows VM from Linux
+
+```
+ping 192.168.1.36
+```
+
+4. The ping failed with **100% packet loss**, indicating the machines could not communicate.
+
+5. Verified both machines were on the same subnet, confirming basic network configuration was correct.
+
+6. Suspected Windows Firewall was blocking ICMP traffic.
+
+7. Opened **Windws Defender Firewall with Advanced Security**.
+
+8. Navigated to **Inbound Rules** and located:
+
+```
+File and Printer Sharing (Echo Request - ICMPv4-In)
+```
+
+9.Enabled the rule for the **Private** network profile.
+
+10. Retested connectivity from linux.
+
+11. Successfully received replies, confirming network communication between VM's.
+
+### Result
+Both Virtual machines were able to successfully communicate over the network after enabling ICMP echo requests in Windows Firewall.
+
+### Skills Learned
+- Identifying IP addresses on Windows and Linux systems
+- Testing connectivity using `ping`
+- Recognizing firewall related network issues
+- Modifying Windows Firewall rules to allow ICMP traffic
+- Basic network troubleshooting methodology
+   
+
