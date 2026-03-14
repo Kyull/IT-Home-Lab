@@ -192,5 +192,80 @@ Both Virtual machines were able to successfully communicate over the network aft
 - Recognizing firewall related network issues
 - Modifying Windows Firewall rules to allow ICMP traffic
 - Basic network troubleshooting methodology
+
+---
+
+## Lab 6: Port Scanning and Firewall Behavior
+
+### Goal
+Use Nmap to scan a Windows virtual machine from a Linux system in order to identify open ports and understand how firewall rules affect network scanning.
+
+### Tools Used
+- Hyper-V
+- Windows 10 Virtual Machine
+- Linux Mint Virtual Machine
+- Nmap
+
+### Commands Used
+```
+sudo apt update
+sudo apt install nmap
+nmap -Pn <target-ip>
+```
+
+### Steps Performed
+
+1. Installed Nmap on the Linux VM using:
+```
+sudo apt update
+sudo apt install nmap
+```
+
+2. Identified the Windows VM IP address using:
+```
+ipconfig
+```
+
+3. Ran an initial scan against the Windows VM:
+```
+nmap -Pn 192.168.1.36
+```
+
+4. The scan returned the result:
+```
+Host is up.
+All 1000 scanned ports are in ignored states.
+Not shown: 1000 filtered tcp ports (no-response)
+```
+
+5. Determined that the Windows Firewall was blocking inbound scan probes, causing all ports to appear filtered.
+
+6. Enabled **Remote Desktop** in Windows settings to expose a known service.
+
+7. Remote Desktop automatically opened port **3389** in the Windows firewall.
+
+8. Re-ran the Nmap scan from the Linux VM:
+```
+nmap -Pn 192.168.1.36
+```
+
+9. The scan detected an open port:
+
+```
+PORT     STATE SERVICE
+3389/tcp open  ms-wbt-server
+```
+
+10. Confirmed that enabling a service on Windows exposed a network port detectable through Nmap.
+
+### Result
+The Nmap scan successfully detected port **3389** after enabling Remote Desktop. This demonstrated how firewall rules and system services determine which ports are visible to other machines on the network.
+
+### Skills Learned
+- Installing and using Nmap for network scanning
+- Understanding how services expose network ports
+- Interpreting filtered vs open ports in scan results
+- Observing how firewall rules affect network visibility
+- Performing iterative troubleshooting during network analysis
    
 
