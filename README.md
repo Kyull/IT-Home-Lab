@@ -267,5 +267,40 @@ The Nmap scan successfully detected port **3389** after enabling Remote Desktop.
 - Interpreting filtered vs open ports in scan results
 - Observing how firewall rules affect network visibility
 - Performing iterative troubleshooting during network analysis
+
+---
+
+## Lab 7: Mapping Open Ports to Windows Processes
+
+### Goal
+Identify which Windows processes are responsible for open network ports discovered through scanning.
+
+### Tools Used
+- Windows Command Prompt
+- netstat
+- tasklist
+- Nmap
+
+### Commands Used
+```
+nmap -Pn <target-ip>
+netstat -ano
+tasklist | findstr <PID>
+```
+
+### Steps Performed
+1. Confirmed port 3389 was open using Nmap from the Linux VM.
+2. Used `netstat -ano` on the Windows VM to identify listening ports.
+3. Located port 3389 and recorded the associated PID.
+4. Used `tasklist` to identify the process tied to that PID.
+
+### Result
+Port 3389 was mapped to the Windows Remote Desktop service running under a system process.
+
+### Skills Learned
+- Identifying listening ports on Windows
+- Mapping ports to process IDs
+- Tracing network services to system processes
+- Understanding how services expose ports
    
 
