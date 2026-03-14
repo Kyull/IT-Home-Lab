@@ -305,31 +305,88 @@ Port 3389 was mapped to the Windows Remote Desktop service running under a syste
    
 ---
 
-## Lab 8: Network Device Discovery
+## Lab 8: Network Device Discovery and Identification
 
 ### Goal
-Use Nmap to discover all devices connected to the local network.
+Use network discovery techniques to identify devices on the local network and investigate device identities using MAC address information.
 
 ### Tools Used
-- Linux Mint
+- Linux Mint VM
 - Nmap
+- Linux `ip` networking utilities
+- MAC OUI vendor lookup
 
 ### Commands Used
+```
+ip a
+nmap -sn 192.168.1.0/24
+ip neigh
+```
+
+### Steps Performed
+
+1. Identified the local network configuration using:
+
+```
+ip a
+```
+
+This showed the Linux VM address:
+
+```
+192.168.1.38/24
+```
+
+From this information the network range was determined to be:
+
+```
+192.168.1.0/24
+```
+
+2. Performed a network discovery scan using Nmap:
+
 ```
 nmap -sn 192.168.1.0/24
 ```
 
-### Steps Performed
-1. Identified the local subnet using the Linux network configuration.
-2. Ran an Nmap ping scan to discover devices on the network.
-3. Observed multiple IP addresses responding on the network.
-4. Confirmed both virtual machines appeared in the scan results.
+This scan identifies which hosts are active on the local subnet without scanning ports.
+
+3. Observed several responding hosts on the network, including the Linux VM and other devices connected to the home network.
+
+4. Noted that most devices only appeared as:
+
+```
+Host is up
+```
+
+with little additional information.
+
+5. Used the Linux neighbor table to inspect MAC addresses of discovered devices:
+
+```
+ip neigh
+```
+
+This command revealed IP-to-MAC address mappings for devices recently communicated with on the network.
+
+Example output:
+
+```
+192.168.1.1 dev eth0 lladdr xx:xx:xx:xx:xx:xx REACHABLE
+192.168.1.36 dev eth0 lladdr xx:xx:xx:xx:xx:xx STALE
+```
+
+6. Extracted MAC addresses and used an OUI vendor lookup database to determine the manufacturer associated with each device.
+
+7. Successfully identified one device on the network as a **TiVo** device based on the registered MAC vendor.
 
 ### Result
-The scan successfully identified devices on the local network, including the Windows and Linux virtual machines.
+The network scan successfully identified active devices on the local subnet. Additional analysis of MAC addresses allowed identification of device manufacturers and revealed the presence of a TiVo device on the network.
 
 ### Skills Learned
-- Network enumeration
-- Identifying devices on a subnet
-- Using Nmap for host discovery
-
+- Determining subnet ranges from CIDR notation
+- Performing host discovery scans with Nmap
+- Inspecting ARP/neighbor tables in Linux
+- Mapping IP addresses to MAC addresses
+- Using OUI lookups to identify device manufacturers
+- Basic network enumeration techniques
