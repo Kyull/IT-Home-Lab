@@ -303,4 +303,33 @@ Port 3389 was mapped to the Windows Remote Desktop service running under a syste
 - Tracing network services to system processes
 - Understanding how services expose ports
    
+---
+
+## Lab 8: Network Device Discovery
+
+### Goal
+Use Nmap to discover all devices connected to the local network.
+
+### Tools Used
+- Linux Mint
+- Nmap
+
+### Commands Used
+```
+nmap -sn 192.168.1.0/24
+```
+
+### Steps Performed
+1. Identified the local subnet using the Linux network configuration.
+2. Ran an Nmap ping scan to discover devices on the network.
+3. Observed multiple IP addresses responding on the network.
+4. Confirmed both virtual machines appeared in the scan results.
+
+### Result
+The scan successfully identified devices on the local network, including the Windows and Linux virtual machines.
+
+### Skills Learned
+- Network enumeration
+- Identifying devices on a subnet
+- Using Nmap for host discovery
 
