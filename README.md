@@ -610,3 +610,67 @@ The packet capture successfully demonstrated how a SYN scan identifies open port
 - Understanding SYN scanning techniques
 - Identifying open vs filtered ports
 - Troubleshooting Nmap scans with the `-Pn` option
+
+---
+
+## Lab 11: OS Fingerprinting with Nmap
+
+### Goal
+Attempt to identify the operating system of a target machine using Nmap OS detection.
+
+### Tools Used
+- Linux Mint VM
+- Windows 10 VM
+- Nmap
+- Wireshark
+
+### Commands Used
+```
+sudo nmap -O 192.168.1.36
+```
+
+### Steps Performed
+
+1. Started packet capture in Wireshark on the Linux VM.
+2. Ran an Nmap OS detection scan targeting the Windows VM.
+3. Observed scan traffic and responses in Wireshark.
+4. Reviewed Nmap output for OS fingerprint results.
+
+### Observations
+
+The scan detected the following open port:
+
+```
+3389/tcp open ms-wbt-server
+```
+
+This corresponds to the Remote Desktop service.
+
+Nmap reported that OS fingerprinting was unreliable because the scan did not find both an open and closed port. Most ports were filtered by the Windows firewall.
+
+A partial OS guess was produced:
+
+```
+Running (JUST GUESSING): Microsoft Windows XP (86%)
+```
+
+This occurred because the firewall prevented Nmap from collecting a full fingerprint.
+
+The MAC address of the system was also identified:
+
+```
+00:15:5D:01:0C:00 (Microsoft)
+```
+
+This indicates the system is running on a Hyper-V virtual network adapter.
+
+### Result
+
+The scan successfully identified the Remote Desktop service but OS detection was limited due to firewall filtering.
+
+### Skills Learned
+
+- OS fingerprinting techniques
+- Interpreting Nmap scan results
+- Understanding firewall impact on scanning
+- Observing reconnaissance traffic in Wireshark
