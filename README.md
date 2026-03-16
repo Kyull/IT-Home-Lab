@@ -390,3 +390,118 @@ The network scan successfully identified active devices on the local subnet. Add
 - Mapping IP addresses to MAC addresses
 - Using OUI lookups to identify device manufacturers
 - Basic network enumeration techniques
+
+---
+
+## Lab 9: Packet Capture and Network Traffic Analysis
+
+### Goal
+Use Wireshark to capture and analyze network traffic between virtual machines and observe protocols such as ARP and ICMP in real time.
+
+### Tools Used
+- Linux Mint VM
+- Wireshark
+- Ping utility
+
+### Commands Used
+```
+sudo apt install wireshark
+sudo gpasswd -a $USER wireshark
+ping 192.168.1.36
+```
+
+### Setup and Troubleshooting
+
+After installing Wireshark, the application initially did not display the network interface (`eth0`) in the capture interface list.
+
+Only remote capture modules such as:
+
+```
+ciscodump
+sshdump
+wifidump
+```
+
+were visible.
+
+This occurred because the user account did not have permission to capture packets.
+
+To fix the issue, the user was added to the Wireshark capture group:
+
+```
+sudo gpasswd -a $USER wireshark
+```
+
+The Linux VM was then restarted to apply the new permissions.
+
+After rebooting, Wireshark correctly displayed the `eth0` network interface and packet capture was able to begin.
+
+### Steps Performed
+
+1. Installed Wireshark on the Linux VM.
+2. Resolved permission issues preventing access to the network interface.
+3. Restarted the system to apply the permission changes.
+4. Opened Wireshark and began capturing packets on interface:
+
+```
+eth0
+```
+
+5. Generated network traffic by pinging the Windows VM:
+
+```
+ping 192.168.1.36
+```
+
+6. Applied display filters in Wireshark to observe specific traffic types:
+
+```
+icmp or arp
+```
+
+### Observations
+
+During the capture the following network activity was observed:
+
+**ICMP traffic**
+
+The Linux VM sent ICMP Echo Requests to the Windows VM:
+
+```
+192.168.1.38 → 192.168.1.36
+ICMP Echo Request
+```
+
+The Windows VM responded with:
+
+```
+192.168.1.36 → 192.168.1.38
+ICMP Echo Reply
+```
+
+This confirmed successful communication between the two virtual machines.
+
+**ARP traffic**
+
+After the ICMP communication ended, repeated ARP requests were observed from the router:
+
+```
+192.168.1.1 → Broadcast
+Who has 192.168.1.38?
+```
+
+The Linux VM responded with ARP replies confirming its MAC address.
+
+This exchange occurred multiple times as the router refreshed its ARP table to maintain accurate IP-to-MAC mappings on the network.
+
+### Result
+Wireshark successfully captured live network traffic between devices on the local subnet. The packet capture demonstrated how ICMP is used for connectivity testing and how ARP is used by devices on the network to resolve IP addresses to MAC addresses.
+
+### Skills Learned
+- Installing and configuring Wireshark
+- Troubleshooting network capture permissions
+- Capturing packets on a network interface
+- Filtering packets in Wireshark
+- Identifying ICMP communication
+- Observing ARP requests and replies
+- Understanding how devices discover each other on a local network
