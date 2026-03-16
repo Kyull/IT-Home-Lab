@@ -505,3 +505,108 @@ Wireshark successfully captured live network traffic between devices on the loca
 - Identifying ICMP communication
 - Observing ARP requests and replies
 - Understanding how devices discover each other on a local network
+
+---
+
+## Lab 10: Observing a TCP SYN Port Scan with Wireshark
+
+### Goal
+Observe how a TCP SYN scan works by capturing Nmap scanning traffic in Wireshark and analyzing the TCP handshake behavior.
+
+### Tools Used
+- Linux Mint VM
+- Windows 10 VM
+- Nmap
+- Wireshark
+
+### Commands Used
+```
+nmap -p 3389 192.168.1.36
+nmap -p 3389 -Pn 192.168.1.36
+```
+
+### Setup
+
+Packet capture was started in Wireshark on the Linux VM using the network interface:
+
+```
+eth0
+```
+
+A display filter was applied to isolate TCP traffic:
+
+```
+tcp
+```
+
+### Steps Performed
+
+1. Started a packet capture in Wireshark on the Linux VM.
+2. Initiated a port scan from the Linux VM targeting the Windows VM:
+
+```
+nmap -p 3389 192.168.1.36
+```
+
+3. Observed that the expected SYN-ACK response was not visible in the packet capture.
+
+4. Determined that Windows firewall behavior and host discovery probes could interfere with the scan.
+
+5. Re-ran the scan using the `-Pn` option to skip host discovery:
+
+```
+nmap -p 3389 -Pn 192.168.1.36
+```
+
+6. Captured the TCP packet exchange between the Linux and Windows VMs.
+
+### Observations
+
+Wireshark displayed the following packet sequence:
+
+```
+Linux VM → Windows VM
+TCP SYN
+```
+
+```
+Windows VM → Linux VM
+TCP SYN, ACK
+```
+
+```
+Linux VM → Windows VM
+TCP RST
+```
+
+This pattern indicates that the scanned port responded as open.
+
+The final `RST` packet is sent intentionally by Nmap to terminate the connection before the full TCP handshake completes.
+
+### Explanation
+
+A normal TCP connection uses a three-way handshake:
+
+```
+SYN → SYN-ACK → ACK
+```
+
+However, Nmap performs a **SYN scan**, which works as follows:
+
+```
+SYN → SYN-ACK → RST
+```
+
+This technique allows the scanner to determine whether a port is open without establishing a full connection.
+
+### Result
+
+The packet capture successfully demonstrated how a SYN scan identifies open ports by analyzing TCP responses.
+
+### Skills Learned
+
+- Performing targeted port scans
+- Using Wireshark to observe TCP handshake behavior
+- Understanding SYN scanning techniques
+- Identifying open vs filtered ports
+- Troubleshooting Nmap scans with the `-Pn` option
