@@ -1007,3 +1007,84 @@ Successfully used Burp Repeater to modify and resend HTTP requests.
 - Observing server responses
 - Understanding how testers manipulate requests
 
+---
+
+## Lab 17: Simulating Login Requests and Testing Input Manipulation
+
+### Goal
+Understand how login forms send credentials to a server and how modifying request parameters can affect server behavior.
+
+### Tools Used
+- Burp Suite
+- Firefox
+- http://httpbin.org/forms/post
+
+### Steps Performed
+
+1. Turned Burp Intercept OFF and navigated to:
+```
+http://httpbin.org/forms/post
+```
+
+2. Turned Burp Intercept ON.
+
+3. Filled out the form using test values and submitted the form.
+
+4. Captured the POST request in Burp Proxy.
+
+Example captured request body:
+```
+custname=admin&custtel=1234&custemail=&delivery=&comments=
+```
+
+5. Sent the request to Burp Repeater.
+
+6. Modified the POST parameter to test input manipulation:
+
+```
+custname=admin&custtel=' OR 1=1-- 
+```
+
+7. Sent modified requests using Repeater and observed server responses.
+
+### Observations
+
+- Form data is transmitted in the HTTP POST body.
+- Parameters can be modified before reaching the server.
+- The server response reflected whatever values were sent in the request.
+- The test site did not perform authentication, but demonstrated how input is transmitted and modified.
+
+### SQL Injection Concept Learned
+
+Learned how SQL injection works conceptually:
+
+Example vulnerable SQL query:
+```
+SELECT * FROM users
+WHERE username = 'admin'
+AND password = 'USER_INPUT';
+```
+
+Injection input:
+```
+' OR 1=1-- 
+```
+
+Resulting SQL query:
+```
+SELECT * FROM users
+WHERE username = 'admin'
+AND password = '' OR 1=1-- ';
+```
+
+This makes the WHERE clause always true, which could allow login without a valid password on a vulnerable system.
+
+### Skills Learned
+
+- Intercepting POST requests
+- Identifying login parameters
+- Modifying request parameters
+- Using Burp Repeater to resend modified requests
+- Understanding how SQL injection works conceptually
+- Understanding how user input reaches backend databases
+
