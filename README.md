@@ -783,3 +783,227 @@ Successfully discovered devices on the network and identified active services on
 - Interpreting open ports and exposed services
 - Understanding attack surface and network exposure
 
+---
+
+## Lab 13: Capturing and Analyzing HTTP Traffic
+
+### Goal
+Capture and analyze HTTP web traffic to understand how web requests and responses work.
+
+### Tools Used
+- Linux Mint VM
+- Wireshark
+- Web Browser
+
+### Setup
+Started a packet capture on the active network interface (eth0).
+
+Applied Wireshark display filter:
+```
+http
+```
+
+### Steps Performed
+1. Opened Wireshark and started capturing on eth0.
+2. Opened a web browser and navigated to:
+```
+http://example.com
+```
+3. Observed HTTP packets appearing in Wireshark.
+4. Clicked on a packet and expanded the Hypertext Transfer Protocol section.
+5. Right-clicked the packet and selected:
+```
+Follow → TCP Stream
+```
+6. Viewed the full HTTP request and response conversation.
+
+### Observations
+
+HTTP Request:
+```
+GET / HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0
+```
+
+HTTP Response:
+```
+HTTP/1.1 200 OK
+Content-Type: text/html
+```
+
+The server responded with HTML content used to render the webpage.
+
+### Troubleshooting Notes
+- Some requests did not appear because the browser loaded the page from cache.
+- Visiting a new site or using Ctrl+Shift+R forces a new request.
+
+### Result
+Successfully captured and analyzed HTTP traffic and observed the request/response model.
+
+### Skills Learned
+- Using Wireshark display filters
+- Following TCP streams
+- Understanding HTTP request/response structure
+- Understanding browser caching behavior
+
+---
+
+## Lab 14: Intercepting and Modifying HTTP Requests with Burp Suite
+
+### Goal
+Intercept and modify HTTP requests using Burp Suite.
+
+### Tools Used
+- Burp Suite Community Edition
+- Firefox Browser
+- Linux Mint VM
+
+### Setup
+Configured Firefox proxy settings:
+```
+HTTP Proxy: 127.0.0.1
+Port: 8080
+Also use this proxy for HTTPS: enabled
+```
+
+Started Burp Suite with:
+```
+Temporary Project → Use Burp Defaults
+```
+
+Enabled interception:
+```
+Proxy → Intercept → ON
+```
+
+### Steps Performed
+1. Visited:
+```
+http://neverssl.com
+```
+2. Observed browser request intercepted in Burp.
+3. Inspected intercepted request:
+```
+GET / HTTP/1.1
+Host: neverssl.com
+```
+4. Forwarded the request to load the page.
+5. Intercepted another request and modified:
+```
+GET / HTTP/1.1
+```
+to:
+```
+GET /test HTTP/1.1
+```
+6. Forwarded modified request and received a 404 response.
+
+### Troubleshooting Notes
+- Some pages did not intercept because they were loaded from browser cache.
+- Using a new site or forcing refresh (Ctrl+Shift+R) fixes this.
+- Intercepting HTTPS initially caused certificate warnings.
+- Installed Burp CA certificate in Firefox to allow HTTPS interception.
+
+### Result
+Successfully intercepted and modified HTTP requests using Burp Suite.
+
+### Skills Learned
+- Configuring a proxy in Firefox
+- Intercepting web traffic
+- Modifying HTTP requests
+- Understanding HTTPS interception and certificates
+
+---
+
+## Lab 15: Intercepting and Modifying POST Requests
+
+### Goal
+Capture and modify POST requests to understand how form data is transmitted.
+
+### Tools Used
+- Burp Suite
+- Firefox
+- http://httpbin.org/forms/post
+
+### Steps Performed
+1. Turned Intercept OFF and loaded:
+```
+http://httpbin.org/forms/post
+```
+2. Turned Intercept ON.
+3. Filled out form fields and submitted.
+4. Captured POST request in Burp:
+```
+POST /post HTTP/1.1
+
+custname=test&custtel=1234
+```
+5. Modified parameters in Burp before forwarding.
+6. Observed server response showing modified values.
+
+### Observations
+- Form data is sent in the POST body.
+- The server response reflected modified input values.
+- This demonstrates that user input can be manipulated before reaching the server.
+
+### Result
+Successfully intercepted and modified POST request data.
+
+### Skills Learned
+- Understanding POST requests
+- Viewing and modifying form parameters
+- Understanding how user input is transmitted to servers
+
+---
+
+## Lab 16: Using Burp Repeater to Modify and Replay Requests
+
+### Goal
+Use Burp Repeater to resend and modify HTTP requests multiple times.
+
+### Tools Used
+- Burp Suite Repeater
+- http://httpbin.org
+
+### Steps Performed
+1. Captured POST request using Burp Proxy.
+2. Right-clicked request and selected:
+```
+Send to Repeater
+```
+3. Opened Repeater tab.
+4. Modified POST parameters:
+```
+custname=admin
+custtel=wrong
+```
+5. Clicked Send and observed server response.
+6. Repeated with different inputs:
+```
+custname=admin
+custtel=admin
+
+custname=admin
+custtel=' OR 1=1 --
+```
+
+### Observations
+- The server responded differently depending on input values.
+- Repeater allows fast testing without resubmitting forms in the browser.
+- Multiple repeater tabs were opened accidentally due to Burp UI behavior.
+
+### Troubleshooting Notes
+- Burp Repeater UI grouped multiple tabs and displayed a counter (e.g., "6x").
+- Closing tabs sometimes increased the counter due to Burp creating new request states.
+- Restarting Burp resets Repeater workspace.
+
+### Result
+Successfully used Burp Repeater to modify and resend HTTP requests.
+
+### Skills Learned
+- Using Burp Repeater
+- Modifying request parameters
+- Observing server responses
+- Understanding how testers manipulate requests
+
