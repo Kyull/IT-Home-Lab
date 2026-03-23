@@ -1088,3 +1088,71 @@ This makes the WHERE clause always true, which could allow login without a valid
 - Understanding how SQL injection works conceptually
 - Understanding how user input reaches backend databases
 
+---
+
+## Lab 18: Cookies and Session Handling
+
+### Goal
+Understand how cookies are used to maintain user sessions and how modifying cookies affects server behavior.
+
+### Tools Used
+- Burp Suite
+- Firefox
+- http://httpbin.org/cookies
+
+### Steps Performed
+
+1. Enabled Burp Intercept and navigated to:
+```
+http://httpbin.org/cookies
+```
+
+2. Observed HTTP request headers in Burp.
+
+3. Located the Cookie header in the HTTP request.
+
+Example request:
+```
+GET /cookies HTTP/1.1
+Host: httpbin.org
+Cookie: session=12345
+```
+
+4. Sent the request to Burp Repeater.
+
+5. Modified the Cookie header manually:
+
+```
+Cookie: admin=true
+```
+
+6. Sent modified request and observed server response.
+
+7. Tested additional cookie values:
+```
+Cookie: role=admin
+Cookie: loggedIn=true
+Cookie: user_id=1
+```
+
+### Observations
+
+- The server accepted any cookie value sent by the client.
+- The server response reflected the cookie values sent in the request.
+- Cookie headers can be modified and resent using Burp Repeater.
+- Header order did not affect server response.
+
+### Concepts Learned
+
+- Cookies are used to maintain session state after login.
+- The session cookie represents the user's authenticated session.
+- If a session cookie is stolen, an attacker may be able to impersonate the user.
+- Servers must validate sessions securely and not trust user-controlled cookie values.
+
+### Skills Learned
+
+- Identifying cookies in HTTP requests
+- Modifying cookie values
+- Using Burp Repeater to test session behavior
+- Understanding session-based authentication
+
