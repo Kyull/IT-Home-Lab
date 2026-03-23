@@ -1156,3 +1156,70 @@ Cookie: user_id=1
 - Using Burp Repeater to test session behavior
 - Understanding session-based authentication
 
+---
+
+## Lab 19: IDOR (Insecure Direct Object Reference)
+
+### Goal
+Understand how changing object identifiers in HTTP requests can expose unauthorized data.
+
+### Tools Used
+- Burp Suite
+- Firefox
+- https://jsonplaceholder.typicode.com
+
+### Steps Performed
+
+1. Enabled Burp Intercept.
+2. Navigated to:
+```
+https://jsonplaceholder.typicode.com/users/1
+```
+
+3. Captured the request in Burp:
+```
+GET /users/1 HTTP/1.1
+Host: jsonplaceholder.typicode.com
+```
+
+4. Sent the request to Burp Repeater.
+5. Modified the request path from:
+```
+/users/1
+```
+to:
+```
+/users/2
+```
+
+6. Sent the modified request.
+
+### Observations
+
+- The server returned a different user's data when the ID number was changed.
+- No authentication or authorization check was required to access different user records.
+- The server responded successfully to all user ID values tested.
+
+### Concept Learned
+
+This demonstrates an Insecure Direct Object Reference (IDOR), where an attacker can access unauthorized data by modifying object identifiers in a request.
+
+Example vulnerable request:
+```
+GET /api/user/123
+```
+
+Changing the ID:
+```
+GET /api/user/124
+```
+
+If the server does not verify ownership, unauthorized data exposure occurs.
+
+### Skills Learned
+
+- Identifying object IDs in URLs
+- Modifying URL parameters in Burp Repeater
+- Testing authorization controls
+- Understanding IDOR vulnerabilities
+
