@@ -1223,3 +1223,77 @@ If the server does not verify ownership, unauthorized data exposure occurs.
 - Testing authorization controls
 - Understanding IDOR vulnerabilities
 
+---
+
+## Lab 20: Directory Traversal (Path Traversal)
+
+### Goal
+Understand how directory traversal vulnerabilities allow attackers to access files outside the intended directory.
+
+### Tools Used
+- Burp Suite
+- Firefox
+- PortSwigger Web Security Academy Lab
+
+### Steps Performed
+
+1. Logged into PortSwigger Web Security Academy and launched the Directory Traversal lab.
+2. Navigated to the lab website and clicked on an image file.
+3. Intercepted the request in Burp Suite.
+
+Original request:
+```
+GET /image?filename=cat.jpg HTTP/1.1
+Host: lab-id.web-security-academy.net
+```
+
+4. Sent the request to Burp Repeater.
+5. Modified the filename parameter to attempt directory traversal:
+```
+filename=../../../etc/passwd
+```
+
+Modified request:
+```
+GET /image?filename=../../../etc/passwd HTTP/1.1
+Host: lab-id.web-security-academy.net
+```
+
+6. Sent the modified request.
+7. The server responded with the contents of the `/etc/passwd` file.
+8. The lab was marked as solved.
+
+### Observations
+
+- The application did not properly validate file paths.
+- The server allowed directory traversal sequences (`../`) to access files outside the intended directory.
+- Sensitive system files were accessible via manipulated input.
+
+### Concept Learned
+
+Directory Traversal occurs when user input is used to access files without proper validation.
+
+Example vulnerable code:
+```
+open("/var/www/images/" + filename)
+```
+
+If filename is:
+```
+../../../etc/passwd
+```
+
+The system resolves the path to:
+```
+/etc/passwd
+```
+
+This allows unauthorized access to sensitive files.
+
+### Skills Learned
+
+- Identifying file parameters in HTTP requests
+- Using Burp Repeater to modify file paths
+- Testing directory traversal payloads
+- Understanding file system structure in Linux
+
