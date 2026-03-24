@@ -1297,3 +1297,67 @@ This allows unauthorized access to sensitive files.
 - Testing directory traversal payloads
 - Understanding file system structure in Linux
 
+---
+
+## Lab 21: Reflected Cross-Site Scripting (XSS)
+
+### Goal
+Understand how reflected XSS occurs when user input is returned in a web page without proper sanitization.
+
+### Tools Used
+- Burp Suite
+- Firefox
+- PortSwigger Web Security Academy
+
+### Steps Performed
+
+1. Logged into PortSwigger Web Security Academy and accessed the Reflected XSS lab.
+2. Used the search feature on the lab website.
+3. Intercepted the search request in Burp Suite.
+
+Original request:
+```
+GET /?search=test HTTP/1.1
+Host: lab-id.web-security-academy.net
+```
+
+4. Sent the request to Burp Repeater.
+5. Modified the search parameter to include a script:
+```
+GET /?search=<script>alert(1)</script> HTTP/1.1
+```
+
+6. Sent the modified request.
+7. Right-clicked the response and selected "Show response in browser".
+8. The JavaScript alert executed, confirming a reflected XSS vulnerability.
+9. The lab was marked as solved.
+
+### Observations
+
+- The application reflected user input directly into the HTML response.
+- No input sanitization or output encoding was performed.
+- JavaScript executed in the browser when the page loaded.
+
+### Concept Learned
+
+Reflected XSS occurs when user input is included in a web page without proper validation or encoding.
+
+Example vulnerable HTML:
+```
+Search results for: USER_INPUT
+```
+
+If USER_INPUT is:
+```
+<script>alert(1)</script>
+```
+
+The browser executes the script.
+
+### Skills Learned
+
+- Identifying reflected input in HTTP responses
+- Injecting JavaScript payloads
+- Using Burp Repeater to modify requests
+- Rendering responses in a browser to test XSS
+
