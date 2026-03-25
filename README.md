@@ -1361,3 +1361,55 @@ The browser executes the script.
 - Using Burp Repeater to modify requests
 - Rendering responses in a browser to test XSS
 
+---
+
+## Lab 22: Stored Cross-Site Scripting (Stored XSS)
+
+### Goal
+Understand how stored XSS occurs when user input is saved by a web application and later displayed to other users without proper sanitization.
+
+### Tools Used
+- Burp Suite
+- Firefox
+- PortSwigger Web Security Academy
+
+### Steps Performed
+
+1. Logged into PortSwigger Web Security Academy and accessed the Stored XSS lab.
+2. Navigated to a blog post page with a comment submission form.
+3. Entered a JavaScript payload into the comment field:
+```
+<script>alert(1)</script>
+```
+
+4. Filled out the name and email fields.
+5. The website field rejected input, so it was left blank.
+6. Submitted the comment.
+7. Reloaded the blog post page.
+8. The JavaScript alert executed when the comment loaded.
+9. The lab was marked as solved.
+
+### Observations
+
+- The comment field stored user input and displayed it without sanitization.
+- The script executed when the page loaded, not just when the form was submitted.
+- This means any user viewing the page would execute the script.
+
+### Concept Learned
+
+Stored XSS occurs when malicious input is stored on the server and later served to users without proper output encoding.
+
+Example:
+```
+User comment stored in database → Displayed to all users → Script executes in their browsers
+```
+
+This can be used to steal session cookies or perform actions as other users.
+
+### Skills Learned
+
+- Identifying stored input fields
+- Injecting JavaScript into stored content
+- Understanding persistent XSS attacks
+- Understanding the difference between reflected and stored XSS
+
