@@ -1552,3 +1552,75 @@ This technique is commonly used to find:
 - Automating parameter testing
 - Analyzing response differences
 
+---
+
+## Lab 25: Directory Brute Forcing (Content Discovery)
+
+### Goal
+Use Burp Intruder to discover hidden directories and files on a web server.
+
+### Tools Used
+- Burp Suite Intruder
+- Firefox
+- jsonplaceholder.typicode.com
+
+### Steps Performed
+
+1. Intercepted a request to a non-existent directory:
+```
+GET /admin HTTP/1.1
+Host: jsonplaceholder.typicode.com
+```
+
+2. Sent the request to Burp Intruder.
+3. Cleared default payload positions.
+4. Highlighted only the directory name and added a payload position:
+```
+GET /§admin§ HTTP/1.1
+```
+
+5. Set payload type to Simple List and added common directory names:
+```
+admin
+login
+dashboard
+api
+test
+dev
+backup
+uploads
+images
+private
+config
+.git
+robots.txt
+sitemap.xml
+```
+
+6. Started the Intruder attack.
+
+### Observations
+
+- Most requests returned 404 Not Found.
+- The path `/robots.txt` returned 200 OK.
+- This indicates the file exists and is accessible.
+
+### Concept Learned
+
+Directory brute forcing (content discovery) is used to find hidden pages and files that are not linked on the main website.
+
+Common discovered files:
+- Admin panels
+- Backup files
+- Configuration files
+- API endpoints
+- robots.txt
+
+The robots.txt file often contains hidden or sensitive paths.
+
+### Skills Learned
+
+- Using Burp Intruder for directory discovery
+- Setting payload positions correctly
+- Analyzing HTTP status codes
+- Identifying interesting responses
